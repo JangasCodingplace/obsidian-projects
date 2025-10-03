@@ -69,16 +69,28 @@ export class ViewApi {
       const logFile = this.fileSystem.getFile(actualLogPath);
       let existingContent = '';
       let indexedFiles = new Set<string>();
+      let fileStatusMap = new Map<string, string>(); // Track last known status
+      let deletedFiles = new Set<string>(); // Track files already marked as deleted
       
       if (logFile) {
         try {
           existingContent = await logFile.read();
-          // Extract file names from existing log entries
+          // Extract file names and their last known status from existing log entries
           const lines = existingContent.split('\n').filter(line => line.trim());
           for (const line of lines) {
             const match = line.match(/^\[\[([^\]]+)\]\],/);
             if (match && match[1]) {
               indexedFiles.add(match[1]);
+              
+              // Check if this file is already marked as deleted
+              const parts = line.split(',');
+              if (parts.length >= 5 && parts[4] && parts[4].trim() === 'deleted') {
+                deletedFiles.add(match[1]);
+              } else if (parts.length >= 4 && parts[3]) {
+                // Only track status if it's not a deleted entry
+                const status = parts[3].trim();
+                fileStatusMap.set(match[1], status);
+              }
             }
           }
         } catch (error) {
@@ -93,10 +105,19 @@ export class ViewApi {
         return !indexedFiles.has(fileName);
       });
       
+      // Find files that have disappeared (were indexed but no longer exist)
+      const currentFileNames = new Set(allFiles.map(record => {
+        return record.id.split('/').pop()?.replace(/\.md$/, '') || record.id;
+      }));
+      
+      const disappearedFiles = Array.from(indexedFiles).filter(fileName => {
+        return !currentFileNames.has(fileName) && !deletedFiles.has(fileName);
+      });
+      
+      let newEntries = '';
+      
       // Add missing files to the log
       if (missingFiles.length > 0) {
-        let newEntries = '';
-        
         for (const record of missingFiles) {
           const fileName = record.id.split('/').pop()?.replace(/\.md$/, '') || record.id;
           
@@ -136,8 +157,22 @@ export class ViewApi {
           const logEntry = `[[${fileName}]],${creationDate},,${initialStatus}\n`;
           newEntries += logEntry;
         }
+      }
+      
+      // Mark disappeared files as deleted
+      if (disappearedFiles.length > 0) {
+        const currentDate = dayjs().format('YYYY-MM-DD');
+        const currentTime = dayjs().format('HH:mm:ss');
         
-        // Append new entries to existing content
+        for (const fileName of disappearedFiles) {
+          const lastKnownStatus = fileStatusMap.get(fileName) || 'unknown';
+          const logEntry = `[[${fileName}]],${currentDate},${currentTime},${lastKnownStatus},deleted\n`;
+          newEntries += logEntry;
+        }
+      }
+      
+      // Update log file if there are new entries
+      if (newEntries) {
         const updatedContent = existingContent + newEntries;
         
         // Write updated content to log file
@@ -168,8 +203,6 @@ export class ViewApi {
       const existingRecord = currentDataFrame.records.find(r => r.id === record.id);
       
       if (existingRecord && record.values['status'] !== existingRecord.values['status']) {
-        console.log("status changed!");
-        
         // Log the status change to file
         const oldStatus = existingRecord.values['status'];
         const newStatus = record.values['status'];
