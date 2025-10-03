@@ -21,6 +21,7 @@ describe("resolve v2", () => {
         commands: [],
         linkBehavior: "open-editor",
         enableStateTracking: false,
+        logPath: "",
       },
     });
   });
@@ -62,6 +63,7 @@ describe("resolve v2", () => {
         commands: [],
         linkBehavior: "open-editor",
         enableStateTracking: false,
+        logPath: "",
       },
     });
   });
@@ -159,6 +161,7 @@ describe("clean up commands", () => {
         commands: [...validCommands, ...invalidCommands, ...duplicatedCommands],
         linkBehavior: "open-editor",
         enableStateTracking: false,
+        logPath: "",
       },
     });
 
@@ -176,6 +179,7 @@ describe("clean up commands", () => {
         commands: validCommands,
         linkBehavior: "open-editor",
         enableStateTracking: false,
+        logPath: "",
       },
     });
   });

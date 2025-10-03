@@ -93,6 +93,7 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
     commands: [],
     linkBehavior: "open-editor",
     enableStateTracking: false,
+    logPath: "",
   },
 };
 
@@ -176,6 +177,7 @@ export const DEFAULT_PREFERENCES: ProjectsPluginPreferences = {
   commands: [],
   linkBehavior: "open-editor",
   enableStateTracking: false,
+  logPath: "",
 };
 
 export function resolvePreferences(

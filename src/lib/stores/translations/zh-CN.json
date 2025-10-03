@@ -470,6 +470,10 @@
                 "enable-state-tracking": {
                     "name": "启用状态跟踪",
                     "description": "启用以跟踪项目状态。例如，用于燃尽图跟踪、周期跟踪等。"
+                },
+                "log-path": {
+                    "name": "日志路径",
+                    "description": "日志文件路径。如果未设置，日志文件将在根目录中创建。"
                 }
             },
             "front-matter": {

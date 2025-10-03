@@ -120,6 +120,21 @@ export class ProjectsSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
+      .setName(get(i18n).t("settings.state.log-path.name"))
+      .setDesc(get(i18n).t("settings.state.log-path.description"))
+      .addText((text) =>
+        text
+          .setValue(preferences.logPath)
+          .setPlaceholder("")
+          .onChange((value) => {
+            save({
+              ...preferences,
+              logPath: value,
+            });
+          })
+      );
+
+    new Setting(containerEl)
       .setName(get(i18n).t("settings.front-matter.heading"))
       .setHeading();
 

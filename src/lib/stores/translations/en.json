@@ -470,6 +470,10 @@
                 "enable-state-tracking": {
                     "name": "Enable state tracking",
                     "description": "Enable to track the state of the project. i.e. for Burndown tracking, Cycle Tracking, etc."
+                },
+                "log-path": {
+                    "name": "Log path",
+                    "description": "Path to the log file. If not set, the log file will be created in the root directory."
                 }
             },
             "front-matter": {
