@@ -20,6 +20,7 @@ describe("resolve v2", () => {
         projectSizeLimit: 1000,
         commands: [],
         linkBehavior: "open-editor",
+        enableStateTracking: false,
       },
     });
   });
@@ -60,6 +61,7 @@ describe("resolve v2", () => {
         projectSizeLimit: 1000,
         commands: [],
         linkBehavior: "open-editor",
+        enableStateTracking: false,
       },
     });
   });
@@ -156,6 +158,7 @@ describe("clean up commands", () => {
         },
         commands: [...validCommands, ...invalidCommands, ...duplicatedCommands],
         linkBehavior: "open-editor",
+        enableStateTracking: false,
       },
     });
 
@@ -172,6 +175,7 @@ describe("clean up commands", () => {
 
         commands: validCommands,
         linkBehavior: "open-editor",
+        enableStateTracking: false,
       },
     });
   });

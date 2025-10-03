@@ -466,6 +466,12 @@
                     }
                 }
             },
+            "state": {
+                "enable-state-tracking": {
+                    "name": "启用状态跟踪",
+                    "description": "启用以跟踪项目状态。例如，用于燃尽图跟踪、周期跟踪等。"
+                }
+            },
             "front-matter": {
                 "heading": "Front matter",
                 "quote-strings": {

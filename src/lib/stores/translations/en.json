@@ -466,6 +466,12 @@
                     }
                 }
             },
+            "state": {
+                "enable-state-tracking": {
+                    "name": "Enable state tracking",
+                    "description": "Enable to track the state of the project. i.e. for Burndown tracking, Cycle Tracking, etc."
+                }
+            },
             "front-matter": {
                 "heading": "Front matter",
                 "quote-strings": {

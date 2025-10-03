@@ -189,6 +189,7 @@ export type ProjectsPluginPreferences = {
   };
   readonly commands: ShowCommand[];
   readonly linkBehavior: LinkBehavior;
+  readonly enableStateTracking: boolean;
 };
 
 export type UnsavedViewDefinition = Omit<

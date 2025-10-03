@@ -106,6 +106,20 @@ export class ProjectsSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
+      .setName(get(i18n).t("settings.state.enable-state-tracking.name"))
+      .setDesc(get(i18n).t("settings.state.enable-state-tracking.description"))
+      .addToggle((toggle) =>
+        toggle
+          .setValue(preferences.enableStateTracking)
+          .onChange((value) => {
+            save({
+              ...preferences,
+              enableStateTracking: value,
+            });
+          })
+      );
+
+    new Setting(containerEl)
       .setName(get(i18n).t("settings.front-matter.heading"))
       .setHeading();
 
