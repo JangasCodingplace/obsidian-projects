@@ -8,6 +8,7 @@ import type {
 } from "./dataframe/dataframe";
 import type { DataApi } from "./dataApi";
 import { dataFrame } from "./stores/dataframe";
+import { settings } from "./stores/settings";
 import type { DataSource } from "./datasources";
 
 /**
@@ -24,12 +25,15 @@ export class ViewApi {
   }
 
   updateRecord(record: DataRecord, fields: DataField[]) {
-    // Check if status field has changed
-    const currentDataFrame = get(dataFrame);
-    const existingRecord = currentDataFrame.records.find(r => r.id === record.id);
-    
-    if (existingRecord && record.values['status'] !== existingRecord.values['status']) {
-      console.log("status changed!");
+    // Check if status field has changed and state tracking is enabled
+    const currentSettings = get(settings);
+    if (currentSettings.preferences.enableStateTracking) {
+      const currentDataFrame = get(dataFrame);
+      const existingRecord = currentDataFrame.records.find(r => r.id === record.id);
+      
+      if (existingRecord && record.values['status'] !== existingRecord.values['status']) {
+        console.log("status changed!");
+      }
     }
     
     if (this.dataSource.includes(record.id)) {
@@ -39,15 +43,18 @@ export class ViewApi {
   }
 
   async updateRecords(records: DataRecord[], fields: DataField[]) {
-    // Check if status field has changed for any record
-    const currentDataFrame = get(dataFrame);
-    
-    records.forEach(record => {
-      const existingRecord = currentDataFrame.records.find(r => r.id === record.id);
-      if (existingRecord && record.values['status'] !== existingRecord.values['status']) {
-        console.log("status changed!");
-      }
-    });
+    // Check if status field has changed for any record and state tracking is enabled
+    const currentSettings = get(settings);
+    if (currentSettings.preferences.enableStateTracking) {
+      const currentDataFrame = get(dataFrame);
+      
+      records.forEach(record => {
+        const existingRecord = currentDataFrame.records.find(r => r.id === record.id);
+        if (existingRecord && record.values['status'] !== existingRecord.values['status']) {
+          console.log("status changed!");
+        }
+      });
+    }
     
     const rs = records.filter((r) => this.dataSource.includes(r.id));
     if (rs) dataFrame.updateRecords(rs);
