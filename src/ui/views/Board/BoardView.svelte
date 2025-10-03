@@ -64,15 +64,15 @@
     new EditNoteModal(
       $app,
       fields,
-      (record) => api.updateRecord(record, fields),
+      async (record) => await api.updateRecord(record, fields),
       record
     ).open();
   };
 
   const handleRecordCheck =
     (checkField: string): OnRecordCheck =>
-    (record, checked) => {
-      api.updateRecord(
+    async (record, checked) => {
+      await api.updateRecord(
         updateRecordValues(record, {
           [checkField]: checked,
         }),

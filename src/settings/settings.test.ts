@@ -119,6 +119,8 @@ const v1demo: v1.ProjectsPluginSettings<
     projectSizeLimit: 1000,
     commands: [],
     linkBehavior: "open-editor",
+    enableStateTracking: false,
+    logPath: "",
   },
 };
 
@@ -237,5 +239,7 @@ const v2demo: v2.ProjectsPluginSettings<
     },
     commands: [],
     linkBehavior: "open-editor",
+    enableStateTracking: false,
+    logPath: "",
   },
 };

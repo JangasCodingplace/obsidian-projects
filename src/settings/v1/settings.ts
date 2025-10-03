@@ -44,6 +44,8 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
     },
     commands: [],
     linkBehavior: "open-editor",
+    enableStateTracking: false,
+    logPath: "",
   },
 };
 

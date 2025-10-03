@@ -3,6 +3,7 @@
 
   import { createProject } from "src/lib/dataApi";
   import { api } from "src/lib/stores/api";
+  import { fileSystem } from "src/lib/stores/fileSystem";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
@@ -92,7 +93,7 @@
             {project}
             {view}
             readonly={source.readonly()}
-            api={new ViewApi(source, $api)}
+            api={new ViewApi(source, $api, $fileSystem)}
             onConfigChange={settings.updateViewConfig}
             {frame}
           />

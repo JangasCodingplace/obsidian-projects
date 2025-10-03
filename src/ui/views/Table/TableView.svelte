@@ -257,8 +257,8 @@
           new EditNoteModal(
             $app,
             fields,
-            (record) => {
-              api.updateRecord(record, fields);
+            async (record) => {
+              await api.updateRecord(record, fields);
             },
             {
               id,
@@ -310,8 +310,8 @@
           settings.deleteFieldConfig(project.id, field);
           deleteColumnConfig(field);
         }}
-        onRowChange={(rowId, row) => {
-          api.updateRecord({ id: rowId, values: row }, fields);
+        onRowChange={async (rowId, row) => {
+          await api.updateRecord({ id: rowId, values: row }, fields);
         }}
         onColumnResize={handleWidthChange}
         onColumnSort={(fields) => {

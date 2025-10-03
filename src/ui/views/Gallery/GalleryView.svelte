@@ -39,7 +39,7 @@
     new EditNoteModal(
       $app,
       fields,
-      (record) => api.updateRecord(record, fields),
+      async (record) => await api.updateRecord(record, fields),
       record
     ).open();
   }
