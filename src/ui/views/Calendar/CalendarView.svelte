@@ -106,14 +106,14 @@
     saveConfig({ ...config, checkField });
   }
 
-  function handleRecordChange(date: dayjs.Dayjs, record: DataRecord) {
+  async function handleRecordChange(date: dayjs.Dayjs, record: DataRecord) {
     if (dateField) {
       if (dateField.type === DataFieldType.Date) {
         const newDatetime = dayjs(record.values[dateField.name] as string)
           .set("year", date.year())
           .set("month", date.month())
           .set("date", date.date());
-        api.updateRecord(
+        await api.updateRecord(
           updateRecordValues(record, {
             [dateField.name]: newDatetime.format(
               dateField.typeConfig?.time ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
@@ -125,9 +125,9 @@
     }
   }
 
-  function handleRecordCheck(record: DataRecord, checked: boolean) {
+  async function handleRecordCheck(record: DataRecord, checked: boolean) {
     if (booleanField) {
-      api.updateRecord(
+      await api.updateRecord(
         updateRecordValues(record, {
           [booleanField.name]: checked,
         }),
@@ -141,8 +141,8 @@
       new EditNoteModal(
         get(app),
         fields,
-        (record) => {
-          api.updateRecord(record, fields);
+        async (record) => {
+          await api.updateRecord(record, fields);
         },
         entry
       ).open();
